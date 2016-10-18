@@ -1,0 +1,29 @@
+{
+  "name": "btrz-env-info",
+  "version": "1.0.0",
+  "description": "Returns in an object AWS instance id, git commit hashes and other important env information.",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Betterez/btrz-env-info.git"
+  },
+  "keywords": [
+    "AWS",
+    "GIT",
+    "Cloud",
+    "Betterez"
+  ],
+  "author": "Hernan Garcia <hernan@dynamicprogrammer.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Betterez/btrz-env-info/issues"
+  },
+  "homepage": "https://github.com/Betterez/btrz-env-info#readme",
+  "dependencies": {
+    "git-rev": "^0.2.1",
+    "node-ec2-metadata": "0.0.5"
+  }
+}

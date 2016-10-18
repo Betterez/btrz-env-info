@@ -4,7 +4,8 @@
   "description": "Returns in an object AWS instance id, git commit hashes and other important env information.",
   "main": "index.js",
   "scripts": {
-    "test": "mocha"
+    "test": "NODE_ENV=test mocha -t 5000",
+    "test-w": "NODE_ENV=test mocha -w -t 5000"
   },
   "repository": {
     "type": "git",
@@ -23,7 +24,12 @@
   },
   "homepage": "https://github.com/Betterez/btrz-env-info#readme",
   "dependencies": {
-    "git-rev": "^0.2.1",
+    "git-rev-2": "^0.1.0",
     "node-ec2-metadata": "0.0.5"
+  },
+  "devDependencies": {
+    "chai": "^3.5.0",
+    "mocha": "^3.1.2",
+    "publish": "^0.6.0"
   }
 }

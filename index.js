@@ -16,6 +16,11 @@ function promisify(fn) {
 }
 
 function getEc2() {
+  const aws = {
+    instanceId: "localhost",
+    amiId: "localhost"
+  };
+
   return ec2.isEC2()
     .then((onEc2) => {
       if (onEc2) {
@@ -28,12 +33,12 @@ function getEc2() {
             instanceId: results[0],
             amiId: results[1]
           }
+        })
+        .catch((err) => {
+          return aws;
         });
       } else {
-        return {
-          instanceId: "localhost",
-          amiId: "localhost"
-        }
+        return aws;
       }
     });
 }

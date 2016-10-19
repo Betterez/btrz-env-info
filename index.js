@@ -19,10 +19,10 @@ function getEc2() {
   return ec2.isEC2()
     .then((onEc2) => {
       if (onEc2) {
-        return Promise.all(
+        return Promise.all([
           ec2.getMetadataForInstance("instance-id"),
           ec2.getMetadataForInstance("ami-id")
-        ).
+        ]).
         then((results) => {
           return {
             instanceId: results[0],

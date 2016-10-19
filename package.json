@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "NODE_ENV=test mocha -t 5000",
-    "test-w": "NODE_ENV=test mocha -w -t 5000"
+    "test-w": "NODE_ENV=test mocha -w -t 5000",
+    "publish": "publish"
   },
   "repository": {
     "type": "git",

@@ -21,7 +21,7 @@ describe("getInfo", () => {
   it("should return the git info for the repo", (done) => {
     lib.getInfo()
       .then((result) => {
-        expect(result.git.branch).to.be.eql("master");
+        expect(result.git.branch).to.not.be.eql(undefined);
         expect(result.git.short.length).to.be.eql(7);
         expect(result.git.long.length).to.be.eql(40);
         done();

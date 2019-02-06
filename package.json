@@ -5,8 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "NODE_ENV=test mocha -t 5000",
-    "test-w": "NODE_ENV=test mocha -w -t 5000",
-    "publish": "publish"
+    "test-w": "NODE_ENV=test mocha -w -t 5000"
   },
   "repository": {
     "type": "git",
@@ -30,7 +29,6 @@
   },
   "devDependencies": {
     "chai": "^3.5.0",
-    "mocha": "^3.1.2",
-    "publish": "^0.6.0"
+    "mocha": "^3.1.2"
   }
 }

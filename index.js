@@ -35,7 +35,10 @@ function getEc2() {
           }
         })
         .catch((err) => {
-          return aws;
+          return {
+            instanceId: "error getting aws info",
+            amiId: "error getting aws info"
+          };
         });
       } else {
         return aws;
@@ -55,6 +58,13 @@ function getGit() {
         long: results[1],
         branch: results[2]
       };
+    })
+    .catch((err) => {
+      return {
+        short: "error getting git info",
+        long: "error getting git info",
+        branch: "error getting git info"
+      };
     });
 }
 
@@ -71,6 +81,15 @@ function get() {
       return {
         git: results[0],
         aws: results[1],
+        env: {
+          nodeEnv: getEnv()
+        }
+      }
+    })
+    .catch((err) => {
+      return {
+        git: "error getting info",
+        aws: "error getting info",
         env: {
           nodeEnv: getEnv()
         }

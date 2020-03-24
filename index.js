@@ -110,6 +110,7 @@ function get(timeoutMs) {
     });
 }
 
-exports.getInfo = (timeoutMs) => {
-  return get(timeoutMs);
+module.exports = {
+  getInfo: (timeoutMs) => get(timeoutMs),
+  getGitInfo: getGit
 };

@@ -41,3 +41,14 @@ describe("getInfo", () => {
       });
   });
 });
+
+
+describe("getGitInfo", () => {
+  it("should return the git info for the repo", async () => {
+    const result = await lib.getGitInfo();
+
+    expect(result.branch).to.not.be.eql(undefined);
+    expect(result.short.length).to.be.eql(7);
+    expect(result.long.length).to.be.eql(40);
+  });
+});

@@ -1,7 +1,16 @@
-"use strict";
+const git = require("git-rev-2");
+const ec2 = require("node-ec2-metadata");
 
-const git = require("git-rev-2"),
-  ec2 = require("node-ec2-metadata");
+const DEFAULT_EC2_QUERY_TIMEOUT_MS = 10000;
+const TIMED_OUT = "TIMED_OUT";
+
+
+function timeout(ms) {
+  return new Promise((resolve) => {
+    setTimeout(() => resolve(TIMED_OUT), ms);
+  });
+}
+
 
 function promisify(fn) {
   return new Promise((resolve, reject) => {
@@ -15,35 +24,39 @@ function promisify(fn) {
   });
 }
 
-function getEc2() {
-  const aws = {
+async function getEc2(timeoutMs = DEFAULT_EC2_QUERY_TIMEOUT_MS) {
+  const localEc2Config = {
     instanceId: "localhost",
     amiId: "localhost"
   };
 
-  return ec2.isEC2()
-    .then((onEc2) => {
-      if (onEc2) {
-        return Promise.all([
-          ec2.getMetadataForInstance("instance-id"),
-          ec2.getMetadataForInstance("ami-id")
-        ]).
-        then((results) => {
-          return {
-            instanceId: results[0],
-            amiId: results[1]
-          }
-        })
-        .catch((err) => {
-          return {
-            instanceId: "error getting aws info",
-            amiId: "error getting aws info"
-          };
-        });
-      } else {
-        return aws;
-      }
-    });
+  const result = await Promise.race([ec2.isEC2(), timeout(timeoutMs)]);
+
+  if (result === TIMED_OUT) {
+    return localEc2Config;
+  }
+
+  const isRunningOnEc2 = result;
+  if (!isRunningOnEc2) {
+    return localEc2Config;
+  }
+
+  try {
+    const [instanceId, amiId] = await Promise.all([
+      ec2.getMetadataForInstance("instance-id"),
+      ec2.getMetadataForInstance("ami-id")
+    ]);
+
+    return {
+      instanceId,
+      amiId
+    };
+  } catch (err) {
+    return {
+      instanceId: "error getting aws info",
+      amiId: "error getting aws info"
+    };
+  }
 }
 
 function getGit() {
@@ -72,9 +85,9 @@ function getEnv() {
   return (process && process.env) ? process.env.NODE_ENV : undefined;
 }
 
-function get() {
+function get(timeoutMs) {
   const git = getGit(),
-    ecs = getEc2();
+    ecs = getEc2(timeoutMs);
 
   return Promise.all([git, ecs])
     .then((results) => {
@@ -97,6 +110,6 @@ function get() {
     });
 }
 
-exports.getInfo = () => {
-  return get();
+exports.getInfo = (timeoutMs) => {
+  return get(timeoutMs);
 };

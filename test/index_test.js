@@ -1,11 +1,10 @@
-"use strict";
-
-const expect = require("chai").expect,
-  lib = require("../");
+const expect = require("chai").expect;
+const lib = require("../");
+const timeoutMs = 1000;
 
 describe("getInfo", () => {
   it("Should return localhost if not AWS", (done) => {
-    lib.getInfo()
+    lib.getInfo(timeoutMs)
       .then((result) => {
         console.log("instanceId:", result.aws.instanceId);
         console.log("amiId:", result.aws.amiId);
@@ -19,7 +18,7 @@ describe("getInfo", () => {
   });
 
   it("should return the git info for the repo", (done) => {
-    lib.getInfo()
+    lib.getInfo(timeoutMs)
       .then((result) => {
         expect(result.git.branch).to.not.be.eql(undefined);
         expect(result.git.short.length).to.be.eql(7);
@@ -32,7 +31,7 @@ describe("getInfo", () => {
   });
 
   it("should return the NODE_ENV if set", (done) => {
-    lib.getInfo()
+    lib.getInfo(timeoutMs)
       .then((result) => {
         expect(result.env.nodeEnv).to.be.eql("test");
         done();

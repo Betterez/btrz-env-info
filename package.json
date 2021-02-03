@@ -1,6 +1,6 @@
 {
   "name": "btrz-env-info",
-  "version": "2.0.0",
+  "version": "2.1.0",
   "description": "Returns in an object AWS instance id, git commit hashes and other important env information.",
   "main": "index.js",
   "scripts": {

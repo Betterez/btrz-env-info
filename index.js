@@ -63,8 +63,14 @@ async function isEC2() {
       if (result == "169.254.169.254") {
         setCache(true, resolve);
       } else {
+        const options = {
+          hostname: '169.254.169.254',
+          port: 80,
+          path: '/latest',
+          method: 'HEAD'
+        };
         // next do a HEAD query to 'http://169.254.169.254/latest/' with a short timeout
-        const req = http.request(BASE_URL, {method: "HEAD"}, () => {
+        const req = http.request(options, () => {
           req.destroy();
           setCache(true, resolve);
         });
@@ -164,7 +170,6 @@ function getGit() {
       };
     })
     .catch((err) => {
-      console.log("@@@", err);
       return {
         short: "error getting git info",
         long: "error getting git info",
